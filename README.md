@@ -1,14 +1,14 @@
 # Restoring Roles Stops Prompt Injection Attacks — code as it ran
 
-This repository contains the exact scripts that produced every number, table and figure in the writeup, unchanged except for a provenance header at the top of each file. They are organised by stage, in the order they were run. A cleaned-up package with the same logic is in `role_restoration/`, but the scripts under `experiments/` are the source of record.
+ They are organised by stage, in the order they were run. A cleaned-up package with the same logic is in `role_restoration/`, but the scripts under `experiments/` are the source of record.
 
-**The result in one line.** On gpt-oss-20b, writing style and role tags write to largely different directions; the small part of style that enters the model's 4-D "who said this" subspace is what makes injected text authoritative; and **role restoration** — overwriting those four coordinates for every tool-channel token with what honest tool output looks like, at layer 8 —
+On gpt-oss-20b, writing style and role tags write to different directions. the small part of style that overlaps with role is most likely what makes injected text authoritative. **Role restoration**  overwrites the resiudal stream activations to match the correct tool tag, performs best when implemented at layer 8, and the equation is:
 
 ```
 h_new = (I − QQᵀ) h_orig + QQᵀ μ_tool
 ```
 
-stops every published injection we tested (69% → 0% ASR), against a random edit of the same size, without touching the text.
+This intervention stops every tested prompt injection attack.
 
 ## Where things ran
 
