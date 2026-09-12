@@ -1,6 +1,6 @@
 # Restoring Roles Stops Prompt Injection Attacks — code as it ran
 
- They are organised by stage, in the order they were run. A cleaned-up package with the same logic is in `role_restoration/`, but the scripts under `experiments/` are the source of record.
+ They are organised by stage, in the order they were run. A cleaned-up package with the same logic is in `role_restoration/`, but the scripts under `experiments/` are the source of record. Note probes and other foundational pieces borrowed from https://role-confusion.github.io/. See report write up for more info: https://docs.google.com/document/d/14MRZM4b9j4W8RbLsKnt_kMjHY3MooxBcLWs257_tvqY/edit?usp=sharing 
 
 On gpt-oss-20b, writing style and role tags write to different directions. the small part of style that overlaps with role is most likely what makes injected text authoritative. **Role restoration**  overwrites the resiudal stream activations to match the correct tool tag, performs best when implemented at layer 8, and the equation is:
 
