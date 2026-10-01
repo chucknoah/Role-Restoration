@@ -19,16 +19,16 @@ This intervention stops every tested prompt injection attack, when implemented a
 
 All runs are handled by the run_gptoss.py file, where the stages arguement causes the following:
 
-# Run only the probes and geometry
+Run only the probes and geometry
 python scripts/run_gptoss.py --stages data geometry
 
-# Run all interventions (including style ablation and random controls), requires  data, geometry,reference, baseline to be ran
+Run all interventions (including style ablation and random controls), requires  data, geometry,reference, baseline to be ran
 python scripts/run_gptoss.py --stages interventions
 
-# Run just the role restoration at layer 8 plus random control
+Run just the role restoration at layer 8 plus random control
 python scripts/run_gptoss.py --stages interventions --conditions restore_L8 restore_random_MM
 
-# Rebuild tables from prior runs
+Rebuild tables from prior runs
 python scripts/run_gptoss.py --stages stats
 
 If you want to run the whole experiment at once, do not pass any stages arugements.
