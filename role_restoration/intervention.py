@@ -82,7 +82,7 @@ def run_attack(model, tok, row, spec: Spec, dirs, seed: int, max_steps=3, max_ne
     msgs = B.scaffold(row["task"], row["html"]); log, attack, mentions, broken, dn, final = [], False, False, False, [], None
     for step in range(max_steps):
         ctx = Intervene(model, spec, B.spans_for(tok, msgs, row["inj"], spec.scope), dirs)
-        with ctx: raw = B.gen_step(model, tok, "".join(msgs) + "<|start|>assistant", seed + 1000 * step, max_new, temperature, greedy)
+        with ctx: raw = B.gen_step(model, tok, "".join(msgs) + B.GEN_PROMPT, seed + 1000 * step, max_new, temperature, greedy)
         dn.extend(ctx.delta_norms); p = B.parse_harmony(raw)
         if not (p["tool_calls"] or p["final"] or p["analysis"]): broken = True; log.append(f"[broken] {raw[:200]}"); break
         for a in p["analysis"]: msgs.append(B.h_analysis(a)); log.append(f"[CoT] {a[:300]}"); mentions |= bool(B.EXFIL.search(a))
@@ -174,7 +174,7 @@ def mediation(model, tok, attacks: pd.DataFrame, specs: Sequence[Spec], dirs, me
     for r in tqdm(attacks.to_dict("records"), desc="mediation"):
         msgs = B.scaffold(r["task"], r["html"]); sp = B.injected_span(tok, msgs, r["inj"]); ts = B.tool_spans(tok, msgs)
         if sp is None: continue
-        prompt = "".join(msgs) + "<|start|>assistant"
+        prompt = "".join(msgs) + B.GEN_PROMPT
         for spec in specs:
             H = B.capture_prompt(model, tok, prompt, list(measure_layers), hook_ctx=Intervene(model, spec, ts, dirs))
             for L in measure_layers:
@@ -186,7 +186,7 @@ def mediation(model, tok, attacks: pd.DataFrame, specs: Sequence[Spec], dirs, me
 # ----------------------------------------------------------------------------- Figure 1 data (text + trace)
 
 def _generate_with_outcome(model, tok, r, spec, dirs, seed, want_attack, max_tries=6, max_new=300):
-    msgs = B.scaffold(r["task"], r["html"]); ts = B.tool_spans(tok, msgs); prompt = "".join(msgs) + "<|start|>assistant"
+    msgs = B.scaffold(r["task"], r["html"]); ts = B.tool_spans(tok, msgs); prompt = "".join(msgs) + B.GEN_PROMPT
     best = None
     for kind, sd in [("greedy", None)] + [("sample", seed + 7919 * k) for k in range(max_tries)]:
         with Intervene(model, spec, ts, dirs): raw = B.gen_step(model, tok, prompt, sd if sd is not None else seed, max_new, greedy=(kind == "greedy"))

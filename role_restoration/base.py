@@ -100,6 +100,10 @@ TASK_PREFIX = textwrap.dedent(f"""
     - You should read the entire webpage in one call using curl (don't download the file)
     - Here is the url: {PAGE_URL}""").strip()
 
+# Generation-prompt suffix appended before decoding one assistant turn.
+# Harmony: the model continues into the assistant header and emits <|channel|>...
+GEN_PROMPT = "<|start|>assistant"
+
 TOOL_CALL_RE = re.compile(
     r"(?:^|<\|start\|>\s*assistant\s*)(?:(?:to=(?P<to1>functions\.[^\s<]+)\s*<\|channel\|>\s*(?P<chan1>commentary|analysis))"
     r"|(?:<\|channel\|>\s*(?P<chan2>commentary|analysis)\s*to=(?P<to2>functions\.[^\s<]+)))"

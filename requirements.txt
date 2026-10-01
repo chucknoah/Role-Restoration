@@ -5,6 +5,8 @@ datasets
 scikit-learn
 numpy
 pandas
+huggingface_hub
+pyarrow                   
 pyyaml
 requests
 tqdm
