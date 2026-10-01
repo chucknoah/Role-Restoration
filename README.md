@@ -48,7 +48,7 @@ Both attack families are the published injection strings from [1] git repo (5 Co
 
 ## Prior work
 
-[1] Ye, Cui & Hadfield-Menell, *Prompt Injection as Role Confusion* — theory, probe, attacks, scaffold, destyling baseline.
-[2] Mogford, *Role confusion: sounding like the cause is indistinguishable from being it* — styled/destyled contrast; steering and patching nulls.
-[3] Zhang, Lee & Park, *Steering Role Confusion* — difference-of-means role vectors as a lever.
+[1] Ye, Cui & Hadfield-Menell, *Prompt Injection as Role Confusion* — theory, probe, attacks, scaffold, destyling baseline. \
+[2] Mogford, *Role confusion: sounding like the cause is indistinguishable from being it* — styled/destyled contrast; steering and patching nulls. \
+[3] Zhang, Lee & Park, *Steering Role Confusion* — difference-of-means role vectors as a lever. \
 [4] Marshall, Scherlis & Belrose, [*Affine Concept Editing*](https://arxiv.org/abs/2411.09003). The same projection-plus-mean update for a single direction; role restoration applies it to the 4-dimensional role subspace.
